@@ -1,10 +1,10 @@
 import bcrypt
 import os
+from pathlib import Path
 
 # Force users.txt to be in the same folder as this script
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-USERS_FILE = os.path.join(BASE_DIR, "users.txt")
-
+# Use the script's directory so the path is portable and not hard-coded
+USERS_FILE = Path(__file__).resolve().parent / "users.txt"
 # TEMPORARY TEST CODE - Remove after testing 
 test_password = "SecurePassword123"
 
@@ -28,8 +28,7 @@ def verify_password(plain_text_password, hashed_password):
 
 
 def user_exists(username):
-    """Check if a username already exists in users.txt"""
-    if not os.path.exists(USERS_FILE):
+    if not USERS_FILE.exists():
         return False
 
     with open(USERS_FILE, "r") as f:
@@ -41,11 +40,11 @@ def user_exists(username):
 
 
 def register_user(username, password):
-    """Register a new user."""
     hashed_password = hash_password(password)
 
     # Create file if it doesn’t exist
-    if not os.path.exists(USERS_FILE):
+    # Create file if it doesn't exist
+    if not USERS_FILE.exists():
         open(USERS_FILE, "w").close()
 
     # Prevent duplicate usernames
@@ -60,9 +59,9 @@ def register_user(username, password):
 
 
 def login_user(username, password):
-    """Log in an existing user."""
     # Create file if it doesn’t exist
-    if not os.path.exists(USERS_FILE):
+    # Create file if it doesn't exist
+    if not USERS_FILE.exists():
         open(USERS_FILE, "w").close()
 
     with open(USERS_FILE, "r") as f:
@@ -96,15 +95,14 @@ def validate_password(password):
 
 
 def main():
-    """Main program loop."""
-    print("\nWelcome to the Week 7 Authentication System!")
+    print("\nAUTHENTICATION SYSTEM PROGRAMM!")
 
     while True:
         display_menu()
         choice = input("\nPlease select an option (1-3): ").strip()
 
         if choice == '1':
-            print("\n--- USER REGISTRATION ---")
+            print("\n USER REGISTRATION")
             username = input("Enter a username: ").strip()
 
             # Validate username
@@ -130,7 +128,7 @@ def main():
             register_user(username, password)
 
         elif choice == '2':
-            print("\n--- USER LOGIN ---")
+            print("\n USER LOGIN ")
             username = input("Enter your username: ").strip()
             password = input("Enter your password: ").strip()
 
@@ -150,16 +148,11 @@ def main():
 
 
 def display_menu():
-    """Displays the main menu options."""
-    print("\n" + "=" * 50)
-    print("  MULTI-DOMAIN INTELLIGENCE PLATFORM")
-    print("  Secure Authentication System")
-    print("=" * 50)
+    print("\nMULTI-DOMAIN INTELLIGENCE PLATFORM")
+    print("\nSecure Authentication System")
     print("\n[1] Register a new user")
     print("[2] Login")
     print("[3] Exit")
-    print("-" * 50)
-
 
 if __name__ == "__main__":
     main()
