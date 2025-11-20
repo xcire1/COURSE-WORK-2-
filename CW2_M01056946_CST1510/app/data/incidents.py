@@ -4,7 +4,6 @@ import sqlite3
 import pandas as pd
 
 from app.data.db import connect_database
-from app.data import datasets_metadata   # This should contain cyber_incidents DB path
 
 
 #     CONSTANTS
